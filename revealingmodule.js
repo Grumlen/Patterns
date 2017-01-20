@@ -1,6 +1,7 @@
 var guessingGame = (function () {
   var privateNumber;
   var privateCounter;
+  var message = "Resetting for a new game . . .";
   function reset() {
     privateCounter = 4;
     privateNumber = Math.ceil(Math.random()*10);
@@ -10,7 +11,7 @@ var guessingGame = (function () {
     if (g>10 || g<1) return console.log("Please pick a number between 1 and 10");
     if (g==privateNumber) {
       reset();
-      return console.log("You guessed the number! Resetting for a new game . . .");
+      return console.log("You guessed the number! "+message);
     }
     if (g>privateNumber) console.log("Too high!");
     if (g<privateNumber) console.log("Too low!");
@@ -19,11 +20,16 @@ var guessingGame = (function () {
     else if (privateCounter==1) return console.log("You have 1 guess left.");
     else if (privateCounter===0) {
       reset();
-      return console.log("You failed to guess the number. Resetting for a new game . . .");
+      return console.log("You failed to guess the number. "+message);
     }
+  }
+  function newGame() {
+    reset();
+    return console.log(message);
   }
   reset();
   return {
+    newGame: newGame,
     guess: guesser
   };
 })();
