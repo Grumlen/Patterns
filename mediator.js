@@ -2,10 +2,10 @@ function Colleague (name) {
   this.name = name;
   this.mediator = null;
   function send(number,recipient) {
-    mediator.sent(number,this,recipient);
+    mediator.sent(number,this.name,recipient);
   }
   function receive(number,sender) {
-    console.log(sender+" just sent me the number "+number);
+    console.log(this.name+": "+sender+" just sent me the number "+number);
   }
   function sendAll(number) {
     mediator.sentToAll(number,this);
@@ -13,38 +13,22 @@ function Colleague (name) {
   return {
     send,
     receive,
-    sendAll
+    sendAll,
+    name: name
   };
 }
 var mediator = (function(){
   var colleagues = {};
-  function addColleague(colleague) {
-    colleagues[name] = colleague.name;
-    colleague.mediated = this;
-  }
-  function removeColleague(colleague) {
-    for (var name in colleagues) {
-      if (colleagues[name]==colleague) {
-        colleagues.splice(i,1);
-        colleague.mediated = null;
-      }
-    }
+  function addColleague(added) {
+    colleagues[added] = added.name;
+    added.mediated = this;
   }
   function sent(number,sender,recipient) {
-    for (var name in colleagues) {
-      if (colleagues[name]==recipient) {
-        recipient.receive(number,sender);
-      }
-    }
-  }
-  function sentToAll(number,sender) {
-    colleagues.forEach(function(colleague) {
-      colleague.receive(number,sender);
-    });
+    console.log("message received");
+    recipient.receive(number,sender);
   }
   return {
     addColleague,
-    removeColleague,
     sent,
     sentToAll
   };
